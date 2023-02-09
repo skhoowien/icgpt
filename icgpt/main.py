@@ -1,4 +1,6 @@
 import os
+
+import gradio
 import openai
 import gradio as gr
 
@@ -6,7 +8,7 @@ import gradio as gr
 #openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #if you have OpenAI API key as a string, enable the below
-openai.api_key = "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"
+openai.api_key = "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"
 
 start_sequence = "\nAI:"
 restart_sequence = "\nHuman: "
@@ -18,7 +20,7 @@ def openai_create(prompt):
     response = openai.Completion.create(
     model="text-davinci-003",
     prompt=prompt,
-    temperature=0.9,
+    temperature=0.5,
     max_tokens=150,
     top_p=1,
     frequency_penalty=0,
@@ -42,14 +44,14 @@ def chatgpt_clone(input, history):
 
 block = gr.Blocks()
 
-
 with block:
     gr.Markdown("""<h1><center>IC-gpt</center></h1>
     """)
-    chatbot = gr.Chatbot()
+    chatbot = gr.Chatbot().style(color_map=["blue","grey"])
     message = gr.Textbox(placeholder=prompt)
     state = gr.State()
     submit = gr.Button("SEND")
     submit.click(chatgpt_clone, inputs=[message, state], outputs=[chatbot, state])
 
 block.launch(debug = True)
+gr.blocks.launch(share=true)
